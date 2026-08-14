@@ -41,7 +41,7 @@ classdef PS3 < realtime.internal.SourceSampleTime & ...
                 % coder.cinclude('source.h');
                 coder.cinclude('ps3joystick.h');
                 % coder.ceval('source_init');
-                obj.fd = uint8(0);
+                obj.fd = int32(0);
                 obj.fd = coder.ceval('joystickSetup');
                 
                 j_state = struct(...

@@ -24,43 +24,11 @@ int read_event(int fd, struct js_event *event)
     if (bytes == sizeof(*event))
         return 1;
 
-    printf("Unexpected bytes from joystick:%d\n", bytes);
+    printf("Unexpected bytes from joystick:%zd\n", bytes);
 
     /* Error, could not read full event. */
     return -1;
 }
-
-/**
- * Current state of an axis.
- */
-struct axis_state {
-    short x, y;
-};
-
-/**
- * Keeps track of the current axis state.
- *
- * NOTE: This function assumes that axes are numbered starting from 0, and that
- * the X axis is an even number, and the Y axis is an odd number. However, this
- * is usually a safe assumption.
- *
- * Returns the axis that the event indicated.
- */
-size_t get_axis_state(struct js_event *event, struct axis_state axes[3])
-{
-    size_t axis = event->number / 2;
-
-    if (axis < 3)
-    {
-        if (event->number % 2 == 0)
-            axes[axis].x = event->value;
-        else
-            axes[axis].y = event->value;
-    }
-
-    return axis;
-}
-
 
 /*
 Setup joystick
@@ -76,26 +44,29 @@ int joystickSetup()
     if (js == -1)
         perror("Could not open joystick");
 
+    return js;
 }
 
 void readJoystick(int fd, joystick_state *j_state ) {
 
     struct js_event event;
-    struct axis_state axes[3] = {0};
-    size_t axis;
 
-    while (read_event(fd, &event) > 0) 
+    while (read_event(fd, &event) > 0)
     {
-        switch (event.type)
+        switch (event.type & ~JS_EVENT_INIT)
         {
             case JS_EVENT_BUTTON:
-                j_state->buttons[event.number] = event.value;
+                if (event.number < sizeof(j_state->buttons) / sizeof(j_state->buttons[0])) {
+                    j_state->buttons[event.number] = event.value;
+                }
                 break;
             case JS_EVENT_AXIS:
-                if (event.number % 2 == 0) {
-                    j_state->axis[event.number] = event.value;
-                } else {
-                    j_state->axis[event.number] = -event.value;
+                if (event.number < sizeof(j_state->axis) / sizeof(j_state->axis[0])) {
+                    if (event.number % 2 == 0) {
+                        j_state->axis[event.number] = event.value;
+                    } else {
+                        j_state->axis[event.number] = -event.value;
+                    }
                 }
                 break;
             default:

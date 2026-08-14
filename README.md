@@ -1,4 +1,4 @@
-# Simulink PS3 Controller  for Raspberry PI 4B
+# Simulink PS3 Controller for Raspberry Pi
 This repository will aim to help setting up a PS3 controller to be operated using a ROS network and Simulink
 
 ## Step 1: set up the Raspberry Pi using Buster Litle
