@@ -1,6 +1,6 @@
 # PS3 Controller Bluetooth Setup
 
-This guide pairs a PS3 (SIXAXIS / DualShock 3) controller with the Raspberry Pi over Bluetooth. It has been verified end-to-end, including from a fully unpaired state.
+This guide pairs a PS3 (SIXAXIS / DualShock 3) controller with the Raspberry Pi over Bluetooth.
 
 Connect to the Pi from a direct shell, or open one from MATLAB:
 ```matlab
@@ -20,7 +20,7 @@ sudo apt-get install libusb-dev joystick evtest
 ```
 mkdir ~/sixpair
 cd ~/sixpair
-wget http://www.pabr.org/sixlinux/sixpair.c
+wget https://raw.githubusercontent.com/EduardBenet/SimulinkJoystick/refs/heads/main/Joystick_setup/sixpair.c
 gcc -o sixpair sixpair.c -lusb
 ```
 
@@ -65,7 +65,16 @@ The `sixaxis` plugin only registers and authorizes a controller once it has seen
    sudo ~/sixpair/sixpair
    ```
 4. Unplug the USB cable.
-5. Press the PS button again. The controller connects over Bluetooth using the address `sixpair` just wrote.
+5. Start bluetoothctl.
+   ```
+   sudo bluetoothctl
+   agent on
+   default-agent
+   connect MAC
+   turst MAC
+   ```
+6. Connect the PS controller cable and press the PS button. (controller connects immediately).
+7. Unplug the controoler and press the PS button again. The controller connects over Bluetooth using the address `sixpair` just wrote.
 
 A successful connection typically completes within a few seconds. You can confirm it in the bluetooth log:
 ```
