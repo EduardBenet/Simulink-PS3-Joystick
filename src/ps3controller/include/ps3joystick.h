@@ -1,11 +1,16 @@
 #ifndef _JOYSTICK_H_
 #define _JOYSTICK_H_
-#include "rtwtypes.h"
+#include <stdint.h>
 
-// Button state
+/* Button and axis state.
+ *
+ * The field types must match the struct declared in PS3.m, which passes this
+ * type to the generated code as 'extern'. Coder does not check the header, so
+ * a mismatch here is silent.
+ */
 typedef struct {
-    int buttons[17];
-    short axis[6];
+    uint8_t buttons[17];
+    int16_t axis[6];
 } joystick_state;
 
 int joystickSetup();
