@@ -1,5 +1,5 @@
 % PS3Controller
-% Version 1.0.0 15-Aug-2026
+% Version 1.0.0 R2026a 15-Aug-2026
 %
 % Simulink device driver blocks for reading a PS3 controller paired over
 % Bluetooth to a Raspberry Pi. The blocks read the Linux joystick device
