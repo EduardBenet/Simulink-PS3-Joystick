@@ -1,3 +1,44 @@
-# List of untracked files to ignore
-
+# Build output
 releases/
+.buildtool/
+
+# MATLAB editor autosave and backup files
+*.asv
+*.m~
+*.autosave
+
+# Simulink cache and autosave
+*.slxc
+*.slx.autosave
+*.mdl.autosave
+*.slx.r20*
+*.mdl.r20*
+
+# Simulink / Stateflow build folders
+slprj/
+sccprj/
+codegen/
+*_ert_rtw/
+*_grt_rtw/
+*_rtw/
+*_sfun/
+
+# Compiled MEX and object files
+*.mex
+*.mexa64
+*.mexw32
+*.mexw64
+*.mexmaci64
+*.mexmaca64
+*.o
+*.obj
+
+# MATLAB test and coverage artifacts
+*.mldatx
+testResults*.xml
+codeCoverage*.xml
+coverage*.html
+
+# OS files
+.DS_Store
+Thumbs.db
