@@ -35,6 +35,14 @@ jobs:
             exit 1
           fi
 
+      # Same tests as ci.yml, so a broken driver cannot be packaged
+      - name: Run driver tests
+        run: |
+          gcc -Wall -Wextra -Isrc/ps3controller/include \
+            -o test_ps3joystick \
+            test/test_ps3joystick.c src/ps3controller/src/ps3joystick.c
+          ./test_ps3joystick
+
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v3
 
