@@ -1,0 +1,24 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  # The driver reads the Linux joystick API, so these run on a Linux runner.
+  # The tests drive ps3joystick.c through a pipe instead of a real device; the
+  # one test that needs /dev/input/js0 skips itself when no joystick is present.
+  ps3joystick:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build tests
+        run: |
+          gcc -Wall -Wextra -Isrc/ps3controller/include \
+            -o test_ps3joystick \
+            test/test_ps3joystick.c src/ps3controller/src/ps3joystick.c
+
+      - name: Run tests
+        run: ./test_ps3joystick
